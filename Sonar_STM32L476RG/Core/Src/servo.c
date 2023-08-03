@@ -2,7 +2,7 @@
 #include "servo.h"
 
 
-bool is_max_angle_180(int i, volatile int pulse_width, volatile bool *state){
+bool is_max_angle_180(uint8_t i, volatile int pulse_width, volatile bool *state){
 	if(pulse_width>2400){
 		i=20;
 		*state=true;
@@ -14,7 +14,7 @@ bool is_max_angle_180(int i, volatile int pulse_width, volatile bool *state){
 	return state;
 }
 
-void adjust_rotation_direction(int i, volatile int *pulse_width, volatile bool state){
+void adjust_rotation_direction(uint8_t i, volatile int *pulse_width, volatile bool state){
 	if(state){
 		*pulse_width-=i;
 	}

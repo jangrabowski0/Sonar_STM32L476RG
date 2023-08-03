@@ -141,102 +141,21 @@ bool lcd_is_busy(void)
 
 
 
-void calc_disp_coordinates_math(int angle, int distance, int *x, int *y, int current_position){
+void calc_disp_coordinates_math(uint8_t angle, uint8_t distance, uint8_t *x, uint8_t *y, uint8_t current_position){
 	float rad=angle/57.2957795;
 	float y1=sin(rad)*distance;
-	float x1=sqrt(pow(distance,2)-pow(y1,2))*2.66;
+	float x1=sqrt(pow(distance,2)-pow(y1,2))*(LCD_WIDTH/MAX_RANGE/2);
 	if(current_position<9){
-		*x=80-x1;
+		*x=LCD_WIDTH/2-x1;
 	}
 	else{
-		*x=80+x1;
+		*x=LCD_WIDTH/2+x1;
 	}
-	*y=y1*3;
+	*y=abs(y1*(LCD_WIDTH/MAX_RANGE/2));
 
 }
 
-void calc_disp_coordinates(uint8_t current_position, int *x, int *y, int distance){
-   uint8_t angle;
-	switch(current_position)
-	{
-	case 0:
-			*x=80-distance*3;
-			*y=0;
-			break;
-	case 1:
-			 angle=10;
-			calc_disp_coordinates_math(angle,distance, x, y, current_position);
-			break;
-	case 2:
-			 angle=20;
-			calc_disp_coordinates_math(angle,distance, x, y, current_position);
-			break;
-	case 3:
-			 angle=30;
-			calc_disp_coordinates_math(angle,distance, x, y, current_position);
-			break;
-	case 4:
-			 angle=40;
-			calc_disp_coordinates_math(angle,distance, x, y, current_position);
-			break;
-	case 5:
-			 angle=50;
-			calc_disp_coordinates_math(angle,distance, x, y, current_position);
-			break;
-	case 6:
-			angle=60;
-			calc_disp_coordinates_math(angle,distance, x, y, current_position);
-			break;
-	case 7:
-			angle=70;
-			calc_disp_coordinates_math(angle,distance, x, y, current_position);
-			break;
-	case 8:
-			angle=80;
-			calc_disp_coordinates_math(angle,distance, x, y, current_position);
-			break;
-	case 9:
-			*x=80;
-			*y=distance*3;
-			break;
-	case 10:
-			angle=80;
-			calc_disp_coordinates_math(angle,distance, x, y, current_position);
-			break;
-	case 11:
-			angle=70;
-			calc_disp_coordinates_math(angle,distance, x, y, current_position);
-			break;
-	case 12:
-		angle=60;
-			calc_disp_coordinates_math(angle,distance, x, y, current_position);
-			break;
-	case 13:
-		angle=50;
-			calc_disp_coordinates_math(angle,distance, x, y, current_position);
-			break;
-	case 14:
-		angle=40;
-			calc_disp_coordinates_math(angle,distance, x, y, current_position);
-			break;
-	case 15:
-		angle=30;
-			calc_disp_coordinates_math(angle,distance, x, y, current_position);
-			break;
-	case 16:
-		angle=20;
-			calc_disp_coordinates_math(angle,distance, x, y, current_position);
-			break;
-	case 17:
-		angle=10;
-			calc_disp_coordinates_math(angle,distance, x, y, current_position);
-			break;
-	case 18:
-		*x=80+distance*3;
-		*y=0;
-			break;
-	}
-}
+
 
 
 

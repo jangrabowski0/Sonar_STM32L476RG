@@ -66,10 +66,11 @@ void SystemClock_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+//51.29, 3.84
 volatile bool state;
 volatile uint8_t current_position;
 volatile int pulse_width=699;
-volatile int distance;
+volatile uint8_t distance;
 
 void HAL_SPI_TxCpltCallback(SPI_HandleTypeDef *hspi)
 {
@@ -161,33 +162,36 @@ int main(void)
   HAL_TIM_PWM_Start(&htim4, TIM_CHANNEL_3);
   HAL_Delay(1000);
 
-  hagl_fill_circle(display,30 ,30, 100, BLACK);
+
+  hagl_fill_rectangle(display, 0, 0, 160, 128, BLACK);
   hagl_draw_circle(display,80 ,0, 64, RED);
-  hagl_draw_circle(display,80 ,0, 128, RED);
+  hagl_draw_circle(display,80 ,0, 120, RED);
   lcd_copy();
   HAL_Delay(300);
 
 
 
-  int x;
-  int y;
+  uint8_t x;
+  uint8_t y;
+
   while (1)
   {
-	  if((current_position==18)||(current_position==0)){
-	  		  hagl_fill_circle(display,30 ,3, 190, BLACK);
-	  		  hagl_draw_circle(display,80 ,0, 64, RED);
-	  		  hagl_draw_circle(display,80 ,0, 128, RED);
-	  		  lcd_copy();
-	  		  while (lcd_is_busy()) {}
-	  	  }
-	  if(distance>0 && distance<30){
-		  calc_disp_coordinates(current_position, &x, &y, distance);
+
+	  if(distance>0 && distance<MAX_RANGE){
+		  calc_disp_coordinates_math(current_position*10,distance, &x, &y, current_position);
 		  hagl_fill_circle(display,x ,y, 2, GREEN);
 
 		  lcd_copy();
 		  while (lcd_is_busy()) {}
 	  }
+	  if((current_position==18)||(current_position==0)){
+	  	  hagl_fill_rectangle(display, 0, 0, 160, 128, BLACK);
+	  	  hagl_draw_circle(display,80 ,0, 64, RED);
+	  	  hagl_draw_circle(display,80 ,0, 128, RED);
 
+	  	  lcd_copy();
+	  	  while (lcd_is_busy()) {}
+	  }
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
